@@ -1,21 +1,25 @@
-'use strict';
-
 const Hapi = require('hapi');
 
-const server = new Hapi.Server({ port: 3000, host: 'localhost' });
+const server = Hapi.server({ port: 4000, host: 'localhost' });
 
-// server.route({
-//     method: 'GET',
-//     path: '/',
-//     handler: function (request, reply) {
-//         reply('Hello, Hapi world!');
-//     }
-// });
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: (request, h) => {
 
-server.start((err) => {
-
-    if (err) {
-        throw err;
+        return 'Hello, Hapi world!';
     }
-    console.log(`hapi-api running on ${server.info.uri}`);
 });
+
+const init = async () => {
+
+    await server.start();
+    console.log(`hapi api running at: ${server.info.uri}`);
+};
+
+process.on('unhandledRejection', (err) => {
+    console.log(err);
+    process.exit(1);
+});
+
+init();
