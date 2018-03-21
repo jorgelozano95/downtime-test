@@ -1,0 +1,32 @@
+version: "3"
+services:
+  hapi-web:
+    image: jolo95/hapidowntime:1
+    deploy:
+      replicas: 5
+      resources:
+       limits:
+         cpus: "0.2"
+         memory: 60M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+  express-web:
+    image: jolo95/expressdowntime:1
+    deploy:
+      replicas: 5
+      resources:
+       limits:
+         cpus: "0.2"
+         memory: 60M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8080:80"
+    networks:
+      - webnet
+networks:
+  webnet:
